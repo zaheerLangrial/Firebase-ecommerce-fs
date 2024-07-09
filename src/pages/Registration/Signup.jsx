@@ -10,7 +10,7 @@ import { addDoc, collection, Timestamp } from "firebase/firestore";
 import { ScaleLoader } from "react-spinners";
 
 const Signup = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [userSignUp, setUserSignUp] = useState({
     name: "",
     email: "",
@@ -50,26 +50,30 @@ const Signup = () => {
         }),
       };
 
-      const userRef = collection(fireDB, "user");
-      addDoc(userRef, user);
+      const userRef = collection(fireDB, "users");
+      await addDoc(userRef, user);
       setUserSignUp({
         name: "",
         email: "",
         password: "",
       });
 
-      toast.success('Signup successfully')
+      toast.success("Signup successfully");
       setLoading(false);
-      navigate('/login')
+      navigate("/login");
     } catch (error) {
-      toast.error(error.message)
-      console.log(error)
-      setLoading(false)
+      toast.error(error.message);
+      setLoading(false);
     }
   };
   return (
     <div className="flex justify-center items-center h-screen">
-      {loading && <ScaleLoader className="absolute backdrop-blur-sm h-full w-full flex justify-center items-center" color="#d81b60" />}
+      {loading && (
+        <ScaleLoader
+          className="absolute backdrop-blur-sm h-full w-full flex justify-center items-center"
+          color="#d81b60"
+        />
+      )}
       {/* Login Form  */}
       <div className="login_Form bg-pink-50 px-1 lg:px-8 py-6 border border-pink-100 rounded-xl shadow-md">
         {/* Top Heading  */}
