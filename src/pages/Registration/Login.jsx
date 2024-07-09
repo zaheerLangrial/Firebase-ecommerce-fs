@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, fireDB } from "../../../FirebaseConfig";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { ScaleLoader } from "react-spinners";
 
 const Login = () => {
   const context = useContext(MyContext);
@@ -43,12 +44,12 @@ const Login = () => {
             password: "",
           });
           toast.success("Login Successfully");
-          setLoading(false);
           if (user.role === "user") {
             navigate("/user-dashboard");
           } else {
             navigate("/admin-dashboard");
           }
+          setLoading(false);
         });
         return () => data;
       } catch (error) {
