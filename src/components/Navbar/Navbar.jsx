@@ -10,8 +10,8 @@ const Navbar = () => {
       <Link to={"/signup"}>Signup</Link>
       <Link to={"/user-dashboard"}>Zaheer</Link>
 
+      <Link to={"/admin-dashboard"}>Admin</Link>
       {/* <Link to={"/"}>Zaheer</Link>
-      <Link to={"/"}>Admin</Link>
       <Link to={"/"}>Logout</Link>*/}
       <Link to={"/cart"}>Cart</Link>
     </ul>
