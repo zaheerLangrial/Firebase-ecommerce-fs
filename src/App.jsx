@@ -12,6 +12,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AddProductPage from "./pages/Admin/AddProductPage";
 import UpdateProductPage from "./pages/Admin/UpdateProductPage";
 import MyState from "./context/myState";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/addproduct" element={<AddProductPage />} />
           <Route path="/updateproduct" element={<UpdateProductPage />} />
         </Routes>
+        <Toaster />
       </Router>
     </MyState>
   );
