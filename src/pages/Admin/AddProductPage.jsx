@@ -2,7 +2,12 @@ import { useContext } from "react";
 import MyContext from "../../context/myContext";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { addDoc, collection, serverTimestamp, Timestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  Timestamp,
+} from "firebase/firestore";
 import toast from "react-hot-toast";
 import { fireDB } from "../../../FirebaseConfig";
 
@@ -33,40 +38,40 @@ const categoryList = [
   },
 ];
 const AddProductPage = () => {
-    const context = useContext(MyContext);
-    const {loading , setLoading} = context;
+  const context = useContext(MyContext);
+  const { loading, setLoading } = context;
 
-    const navigate = useNavigate();
-    
-    const [product , setProduct] = useState({
-        title : '',
-        price: '',
-        url: '',
-        category: '',
-        description: '',
-        quantity: 1,
-        time: Timestamp.now(),
-        date: serverTimestamp()
-    })
-    const addProductHandle = async () => {
-        if(product.title === '' || product.category === '' || product.url === '') {
-            toast.error('All fields are required')
-        }
+  const navigate = useNavigate();
 
-        setLoading(true);
-
-        try {
-            const productRef = collection(fireDB, 'products');
-            await addDoc(productRef , product);
-            toast.success('Add Product Successfully');
-            navigate('/admin-dashboard')
-            setLoading(false)
-        } catch (error) {
-            setLoading(false);
-            toast.error(error.message)
-            console.log(error)
-        }
+  const [product, setProduct] = useState({
+    title: "",
+    price: "",
+    url: "",
+    category: "",
+    description: "",
+    quantity: 1,
+    time: Timestamp.now(),
+    date: serverTimestamp(),
+  });
+  const addProductHandle = async () => {
+    if (product.title === "" || product.category === "" || product.url === "") {
+      toast.error("All fields are required");
     }
+
+    setLoading(true);
+
+    try {
+      const productRef = collection(fireDB, "products");
+      await addDoc(productRef, product);
+      toast.success("Add Product Successfully");
+      navigate("/admin-dashboard");
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      toast.error(error.message);
+      console.log(error);
+    }
+  };
   return (
     <div>
       <div className="flex justify-center items-center h-screen">
