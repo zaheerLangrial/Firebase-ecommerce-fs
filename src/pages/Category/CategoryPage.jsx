@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
 import { useContext } from "react";
 import { ScaleLoader } from "react-spinners";
@@ -16,7 +16,7 @@ const CategoryPage = () => {
   const filterProduct = getAllProducts?.filter((obj) =>
     obj.category.toLowerCase().includes(categoryname)
   );
-  
+
   return (
     <Layout>
       <div className="mt-10">
@@ -30,9 +30,9 @@ const CategoryPage = () => {
         {loading ? (
           <div className="flex justify-center items-center w-full h-28">
             <ScaleLoader
-            className="absolute backdrop-blur-sm w-full flex justify-center items-center"
-            color="#d81b60"
-          />
+              className="absolute backdrop-blur-sm w-full flex justify-center items-center"
+              color="#d81b60"
+            />
           </div>
         ) : (
           <section className="text-gray-600 body-font">
@@ -43,7 +43,13 @@ const CategoryPage = () => {
                 {filterProduct?.length > 0 ? (
                   <>
                     {filterProduct?.map((item, index) => {
-                      const { id, title, price, url:productImageUrl, category } = item;
+                      const {
+                        id,
+                        title,
+                        price,
+                        url: productImageUrl,
+                        category,
+                      } = item;
                       return (
                         <div key={index} className="p-4 w-full md:w-1/4">
                           <div className="h-full border border-gray-300 rounded-xl overflow-hidden shadow-md cursor-pointer">

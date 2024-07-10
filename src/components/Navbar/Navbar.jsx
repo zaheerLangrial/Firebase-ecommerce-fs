@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "../SearchBar/SearchBar";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const cartProducts = useSelector(state => state.cart)
   const navLink = (
     <ul className="flex space-x-3 font-medium text-base px-5">
       <Link to={"/"}>Home</Link>
@@ -11,9 +13,7 @@ const Navbar = () => {
       <Link to={"/user-dashboard"}>Zaheer</Link>
 
       <Link to={"/admin-dashboard"}>Admin</Link>
-      {/* <Link to={"/"}>Zaheer</Link>
-      <Link to={"/"}>Logout</Link>*/}
-      <Link to={"/cart"}>Cart</Link>
+      <Link to={"/cart"}>Cart({cartProducts?.length})</Link>
     </ul>
   );
   return (

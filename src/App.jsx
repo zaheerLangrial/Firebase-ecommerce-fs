@@ -11,11 +11,11 @@ import UserDashboard from "./pages/User/UserDashboard";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AddProductPage from "./pages/Admin/AddProductPage";
 import UpdateProductPage from "./pages/Admin/UpdateProductPage";
-import MyState from "./context/myState";
 import { Toaster } from "react-hot-toast";
 import ProtectedRouteForAdmin from "./components/ProductedRoute/ProductedRouteForAdmin";
 import ProtectedRouteForUser from "./components/ProductedRoute/ProductedRouteForUser";
 import CategoryPage from "./pages/Category/CategoryPage";
+import { MyState } from "./context/myContext";
 
 const App = () => {
   return (

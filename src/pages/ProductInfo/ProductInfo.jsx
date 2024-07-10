@@ -4,12 +4,14 @@ import { useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { fireDB } from "../../../FirebaseConfig";
 import { useEffect } from "react";
+import { addToCart } from "../../redux/CartSlice";
+import { useDispatch } from "react-redux";
 
 const ProductInfo = () => {
+  const disPatch = useDispatch();
   const param = useParams();
   const [loading, setLoading] = useState(false);
   const [productInfo, setProductInfo] = useState();
-  console.log(productInfo);
 
   const getProductInfo = async () => {
     setLoading(true);
@@ -121,7 +123,12 @@ const ProductInfo = () => {
 
                 <div className="mb-6 " />
                 <div className="flex flex-wrap items-center mb-6">
-                  <button className="w-full px-4 py-3 text-center text-pink-600 bg-pink-100 border border-pink-600  hover:bg-pink-600 hover:text-gray-100 rounded-xl">
+                  <button
+                    onClick={() => {
+                      disPatch(addToCart(productInfo));
+                    }}
+                    className="w-full px-4 py-3 text-center text-pink-600 bg-pink-100 border border-pink-600  hover:bg-pink-600 hover:text-gray-100 rounded-xl"
+                  >
                     Add to cart
                   </button>
                 </div>

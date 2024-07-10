@@ -5,7 +5,6 @@ import Category from '../../components/Category/Category'
 import HomePageProductCard from '../../components/HomePageProductCard/HomePageProductCard'
 import Track from '../../components/Track/Track'
 import Testimonial from '../../components/Testimonial/Testimonial'
-import { BeatLoader } from 'react-spinners'
 
 const Home = () => {
   return (
