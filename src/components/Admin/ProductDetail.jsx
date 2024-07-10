@@ -2,18 +2,32 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import MyContext from "../../context/myContext";
 import { ScaleLoader } from "react-spinners";
+import { deleteDoc, doc } from "firebase/firestore";
+import { fireDB } from "../../../FirebaseConfig";
+import toast from "react-hot-toast";
+import { useState } from "react";
 
 const ProductDetail = () => {
   const context = useContext(MyContext);
-  const { loading, getAllProducts } = context;
+  const { getAllProducts } = context;
+  const [loading , setLoading] = useState(false)
+
+  const handleDeleteProduct = async (id) => {
+    setLoading(true);
+    try {
+      await deleteDoc(doc(fireDB, "products", id));
+      toast.success("Product Deleted Successfully");
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
   return (
     <>
       {loading ? (
         <div className="flex justify-center items-center">
-            <ScaleLoader
-          className="pt-12"
-          color="#d81b60"
-        />
+          <ScaleLoader className="pt-12" color="#d81b60" />
         </div>
       ) : (
         <>
@@ -86,27 +100,37 @@ const ProductDetail = () => {
                   return (
                     <tr key={index} className="text-pink-300">
                       <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 ">
-                        {product?.id || '-'}
+                        {product?.id || "-"}
                       </td>
                       <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
-                        <img src={product?.url || ''} alt="Product Image" className="size-16" />
+                        <img
+                          src={product?.url || ""}
+                          alt="Product Image"
+                          className="size-16"
+                        />
                       </td>
                       <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
                         {product?.title || "-"}
                       </td>
                       <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
-                        $ {product?.price || '-'}
+                        $ {product?.price || "-"}
                       </td>
                       <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
-                      {product?.category || '-'}
+                        {product?.category || "-"}
                       </td>
                       <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 first-letter:uppercase ">
-                      { product?.date || '-'}
+                        {product?.date || "-"}
                       </td>
-                      <Link to={'/updateproduct/'+product.id} className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 text-green-500 cursor-pointer ">
+                      <Link
+                        to={"/updateproduct/" + product.id}
+                        className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 text-green-500 cursor-pointer "
+                      >
                         Edit
                       </Link>
-                      <td className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 text-red-500 cursor-pointer ">
+                      <td
+                        onClick={() =>  handleDeleteProduct(product.id)}
+                        className="h-12 px-6 text-md transition duration-300 border-t border-l first:border-l-0 border-pink-100 stroke-slate-500 text-slate-500 text-red-500 cursor-pointer "
+                      >
                         Delete
                       </td>
                     </tr>

@@ -1,6 +1,31 @@
+import { useParams } from "react-router-dom";
 import Layout from "../../components/layout/Layout";
+import { useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { fireDB } from "../../../FirebaseConfig";
+import { useEffect } from "react";
 
 const ProductInfo = () => {
+  const param = useParams();
+  const [loading, setLoading] = useState(false);
+  const [productInfo, setProductInfo] = useState();
+  console.log(productInfo);
+
+  const getProductInfo = async () => {
+    setLoading(true);
+    try {
+      const tempProduct = await getDoc(doc(fireDB, "products", param.id));
+      setProductInfo(tempProduct.data());
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getProductInfo();
+  }, []);
   return (
     <Layout>
       <section className="py-5 lg:py-16 font-poppins dark:bg-gray-800">
@@ -11,8 +36,8 @@ const ProductInfo = () => {
                 <div className="">
                   <img
                     className=" w-full lg:h-[39em] rounded-lg"
-                    src="https://i.pinimg.com/736x/e4/61/f2/e461f2246b6ad93e2099d98780626396.jpg"
-                    alt=""
+                    src={productInfo?.url || ""}
+                    alt="Image Product"
                   />
                 </div>
               </div>
@@ -21,8 +46,7 @@ const ProductInfo = () => {
               <div className="lg:pl-20">
                 <div className="mb-6 ">
                   <h2 className="max-w-xl mb-6 text-xl font-semibold leading-loose tracking-wide text-gray-700 md:text-2xl dark:text-gray-300">
-                    Intel® Core™ i5-12600HX Processor (18M Cache, up to 4.60
-                    GHz)
+                    {productInfo?.title || "-"}
                   </h2>
                   <div className="flex flex-wrap items-center mb-6">
                     <ul className="flex mb-4 mr-2 lg:mb-0">
@@ -85,25 +109,14 @@ const ProductInfo = () => {
                     </ul>
                   </div>
                   <p className="inline-block text-2xl font-semibold text-gray-700 dark:text-gray-400 ">
-                    <span>Rs.7,000.00</span>
+                    <span>{productInfo?.price || "-"}</span>
                   </p>
                 </div>
                 <div className="mb-6">
                   <h2 className="mb-2 text-lg font-bold text-gray-700 dark:text-gray-400">
                     Description :
                   </h2>
-                  <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Culpa, explicabo enim ratione voluptatum at cupiditate
-                    delectus nemo dolorum officia esse beatae optio ut mollitia
-                    sit omnis, possimus nesciunt voluptas natus! Lorem ipsum
-                    dolor sit amet consectetur adipisicing elit. Provident rerum
-                    ad rem reprehenderit qui, omnis nam distinctio, dignissimos
-                    nisi quidem aliquam, sapiente delectus commodi! Perspiciatis
-                    provident illo autem quidem ad! Lorem ipsum dolor sit amet
-                    consectetur adipisicing elit. Beatae reiciendis eum dolorum
-                    cupiditate{" "}
-                  </p>
+                  <p>{productInfo?.description || "-"}</p>
                 </div>
 
                 <div className="mb-6 " />

@@ -42,8 +42,7 @@ export const categoryList = [
   },
 ];
 const AddProductPage = () => {
-  const context = useContext(MyContext);
-  const { loading, setLoading } = context;
+  const [ loading, setLoading ] = useState(false);
 
   const navigate = useNavigate();
 
@@ -73,8 +72,8 @@ const AddProductPage = () => {
       const productRef = collection(fireDB, "products");
       await addDoc(productRef, product);
       toast.success("Add Product Successfully");
-      navigate("/admin-dashboard");
       setLoading(false);
+      navigate("/admin-dashboard");
     } catch (error) {
       setLoading(false);
       toast.error(error.message);
