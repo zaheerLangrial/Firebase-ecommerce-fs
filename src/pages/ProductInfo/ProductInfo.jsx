@@ -36,7 +36,7 @@ const ProductInfo = () => {
   };
 
   const deleteCart = (item) => {
-    dispatch(deleteFormCart(item));
+    dispatch(deleteFormCart(item.id));
     toast.success("Delete cart");
   };
   useEffect(() => {
@@ -142,7 +142,7 @@ const ProductInfo = () => {
 
                   <div className="mb-6 " />
                   <div className="flex flex-wrap items-center mb-6">
-                    {cartItems.some((p) => p.id === productInfo?.id) ? (
+                    {!!cartItems.find((p) => p.id === productInfo?.id) ? (
                       <button
                         onClick={() => deleteCart(productInfo)}
                         className="w-full px-4 py-3 text-center text-white bg-red-500 border border--600  hover:bg-red-600 hover:text-gray-100  rounded-xl"
