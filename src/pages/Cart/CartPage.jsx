@@ -2,11 +2,18 @@ import { useSelector } from "react-redux";
 import Layout from "../../components/layout/Layout";
 import { Trash } from "lucide-react";
 import { useDispatch } from "react-redux";
-import { decrementQuantity, incrementQuantity } from "../../redux/CartSlice";
+import { useState , useEffect } from "react";
+import { decrementQuantity, deleteFormCart, incrementQuantity } from "../../redux/CartSlice";
+import { TotlePrice } from "./Price";
+import BuyNowModal from "../../components/BuyNowModal/BuyNowModal";
 
 const CartPage = () => {
   const dispatch = useDispatch();
   const cartProducts = useSelector((state) => state.cart);
+  const [price , setPrice ] = useState(0)
+  useEffect(() => {
+    setPrice(TotlePrice(cartProducts))
+  }, [cartProducts])
   return (
     <Layout>
       <div className="container mx-auto px-4 max-w-7xl lg:px-0">
@@ -62,7 +69,7 @@ const CartPage = () => {
                                 {product?.originalPrice || "-"}
                               </p>
                               <p className="text-sm font-medium text-gray-900">
-                                &nbsp;&nbsp;{product?.price || "-"}
+                                &nbsp;&nbsp;$ {product?.price || "-"}
                               </p>
                               &nbsp;&nbsp;
                               <p className="text-sm font-medium text-green-500">
@@ -76,7 +83,7 @@ const CartPage = () => {
                     <div className="mb-2 flex">
                       <div className="min-w-24 flex">
                         <button
-                          onClick={() => dispatch(decrementQuantity())}
+                          onClick={() => dispatch(decrementQuantity(product?.id))}
                           type="button"
                           className="h-7 w-7"
                         >
@@ -85,10 +92,11 @@ const CartPage = () => {
                         <input
                           type="text"
                           className="mx-1 h-7 w-9 rounded-md border text-center"
-                          defaultValue={product?.quantity || 1}
+                          defaultValue={product?.quantity}
+                          value={product?.quantity}
                         />
                         <button
-                          onClick={() => dispatch(incrementQuantity())}
+                          onClick={() => dispatch(incrementQuantity(product?.id))}
                           type="button"
                           className="flex h-7 w-7 items-center justify-center"
                         >
@@ -101,7 +109,7 @@ const CartPage = () => {
                           className="flex items-center space-x-1 px-2 py-1 pl-0"
                         >
                           <Trash size={12} className="text-red-500" />
-                          <span className="text-xs font-medium text-red-500">
+                          <span onClick={() => dispatch(deleteFormCart(product?.id))} className="text-xs font-medium text-red-500">
                             Remove
                           </span>
                         </button>
@@ -127,7 +135,9 @@ const CartPage = () => {
                   <div className="flex items-center justify-between">
                     <dt className="text-sm text-gray-800">Price (3 item)</dt>
                     <dd className="text-sm font-medium text-gray-900">
-                      ₹ 52,398
+                      $ {
+                        price
+                      }
                     </dd>
                   </div>
                   <div className="flex items-center justify-between pt-4">
@@ -135,7 +145,7 @@ const CartPage = () => {
                       <span>Discount</span>
                     </dt>
                     <dd className="text-sm font-medium text-green-700">
-                      - ₹ 3,431
+                      - $ 0
                     </dd>
                   </div>
                   <div className="flex items-center justify-between py-4">
@@ -149,15 +159,13 @@ const CartPage = () => {
                       Total Amount
                     </dt>
                     <dd className="text-base font-medium text-gray-900">
-                      ₹ 48,967
+                      $ {price}
                     </dd>
                   </div>
                 </dl>
                 <div className="px-2 pb-4 font-medium text-green-700">
                   <div className="flex gap-4 mb-6">
-                    <button className="w-full px-4 py-3 text-center text-gray-100 bg-pink-600 border border-transparent dark:border-gray-700 hover:border-pink-500 hover:text-pink-700 hover:bg-pink-100 rounded-xl">
-                      Buy now
-                    </button>
+                    <BuyNowModal />
                   </div>
                 </div>
               </div>

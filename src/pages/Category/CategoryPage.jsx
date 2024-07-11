@@ -3,6 +3,7 @@ import Layout from "../../components/layout/Layout";
 import { useContext } from "react";
 import { ScaleLoader } from "react-spinners";
 import MyContext from "../../context/myContext";
+import { Link } from "react-router-dom";
 
 const CategoryPage = () => {
   const { categoryname } = useParams();
@@ -71,9 +72,9 @@ const CategoryPage = () => {
                               </h1>
 
                               <div className="flex justify-center ">
-                                <button className=" bg-pink-500 hover:bg-pink-600 w-full text-white py-[4px] rounded-lg font-bold">
-                                  Add To Cart
-                                </button>
+                                <Link to={'/productinfo/' + id } className="text-center bg-pink-500 hover:bg-pink-600 w-full text-white py-[4px] rounded-lg font-bold">
+                                  Details
+                                </Link>
                               </div>
                             </div>
                           </div>

@@ -1,19 +1,34 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchBar from "../SearchBar/SearchBar";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const navigate = useNavigate()
   const cartProducts = useSelector(state => state.cart)
+  const user = JSON.parse(localStorage.getItem('users'))
+
+  const logoutHandle = () => {
+    localStorage.removeItem('users')
+    navigate('/login')
+  }
+
   const navLink = (
     <ul className="flex space-x-3 font-medium text-base px-5">
       <Link to={"/"}>Home</Link>
       <Link to={"/allproducts"}>All Product</Link>
-      <Link to={"/signup"}>Signup</Link>
-      <Link to={"/user-dashboard"}>Zaheer</Link>
-
-      <Link to={"/admin-dashboard"}>Admin</Link>
+      <Link to={"/user-dashboard"}>Dashboard</Link>
+      {
+        user?.role === 'admin' && (
+          <Link to={"/admin-dashboard"}>Admin</Link>
+        )
+      }
       <Link to={"/cart"}>Cart({cartProducts?.length})</Link>
+      {
+        user?.uid ? <button onClick={() => logoutHandle()}>Logout</button> : (
+          <Link to={"/login"}>Login</Link>
+        )
+      }
     </ul>
   );
   return (

@@ -18,7 +18,7 @@ const CartSlice = createSlice({
       }
     },
     deleteFormCart(state, action) {
-      return state.filter((item) => item.id !== action.payload.id);
+      return state.filter((item) => item.id !== action.payload);
     },
     incrementQuantity(state, action) {
       state = state.map((item) => {

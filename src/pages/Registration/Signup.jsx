@@ -21,7 +21,6 @@ const Signup = () => {
   const { loading, setLoading } = context;
 
   const userSignUpHandle = async () => {
-    console.log("signUp userData ===>", userSignUp);
     if (
       userSignUp.name === "" ||
       userSignUp.email === "" ||

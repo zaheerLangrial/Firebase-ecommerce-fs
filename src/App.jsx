@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, json } from "react-router-dom";
 import NoPage from "./pages/noPage/NoPage";
 import Home from "./pages/home/Home";
 import ProductInfo from "./pages/ProductInfo/ProductInfo";
@@ -18,6 +18,7 @@ import CategoryPage from "./pages/Category/CategoryPage";
 import { MyState } from "./context/myContext";
 
 const App = () => {
+  const user = JSON.parse(localStorage.getItem('users'))
   return (
     <MyState>
       <Router>
@@ -26,7 +27,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/*" element={<NoPage />} />
           <Route path="/productinfo/:id" element={<ProductInfo />} />
-          <Route path="/cart" element={<CartPage />} />
+          <Route path="/cart" element={user?.uid ? <CartPage /> : <Login />} />
           <Route path="/allproducts" element={<AllProduct />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />

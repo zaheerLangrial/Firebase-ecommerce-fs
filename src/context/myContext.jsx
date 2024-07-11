@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, QuerySnapshot } from "firebase/firestore";
 import { fireDB } from "../../FirebaseConfig";
 import { createContext } from "react";
 
@@ -32,8 +32,33 @@ export const MyState = ({ children }) => {
     }
   };
 
+  const [allOrders , setAllOrders] = useState([])
+
+  const getAllOrders = async () => {
+    setLoading(true);
+    try {
+      const q = query(
+        collection(fireDB, 'order'),
+        orderBy('time')
+      )
+      const data = onSnapshot(q, (QuerySnapshot) => {
+        let orderArray = [];
+        QuerySnapshot.forEach((doc) => {
+          orderArray.push({...doc.data(), id: doc.id})
+        });
+        setAllOrders(orderArray);
+        setLoading(false)
+      })
+      return () => data
+    } catch (error) {
+      setLoading(false);
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     fetchProducts();
+    getAllOrders()
   }, []);
 
   return (
@@ -42,6 +67,7 @@ export const MyState = ({ children }) => {
         loading,
         setLoading,
         getAllProducts,
+        allOrders,
       }}
     >
       {children}
