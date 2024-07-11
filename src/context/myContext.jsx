@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { collection, onSnapshot, orderBy, query, QuerySnapshot } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, QuerySnapshot } from "firebase/firestore";
 import { fireDB } from "../../FirebaseConfig";
 import { createContext } from "react";
 
@@ -56,9 +56,48 @@ export const MyState = ({ children }) => {
     }
   }
 
+  const [getAllUsers , setGetAllUsers] = useState([]);
+
+
+  const fetchAllUsers = async () => {
+    setLoading(true);
+    try {
+      const q = query(
+        collection(fireDB, 'users'),
+        orderBy('time')
+      )
+
+      const data = onSnapshot(q, (QuerySnapshot) => {
+        let userArray = [];
+        QuerySnapshot.forEach((doc) => {
+          userArray.push({...doc.data(), id: doc.id});
+        })
+        setGetAllUsers(userArray);
+        setLoading(false)
+      })
+      return () => data
+    } catch (error) {
+      console.log(error);
+      setLoading(false)
+    }
+  }
+
+  const DeleteOrder = async (OrderId) => {
+    setLoading(true);
+    try {
+      await deleteDoc(doc(fireDB, 'order', OrderId))
+      toast.success('Order Deleted successfully')
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false)
+    }
+  } 
+
   useEffect(() => {
     fetchProducts();
-    getAllOrders()
+    getAllOrders();
+    fetchAllUsers();
   }, []);
 
   return (
@@ -68,6 +107,8 @@ export const MyState = ({ children }) => {
         setLoading,
         getAllProducts,
         allOrders,
+        getAllUsers,
+        DeleteOrder
       }}
     >
       {children}
