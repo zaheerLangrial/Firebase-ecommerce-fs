@@ -3,17 +3,13 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDn87kgl4LrcgzbhiZtGTszATuS96lWCHw",
-  authDomain: "online-store-395c8.firebaseapp.com",
-  projectId: "online-store-395c8",
-  storageBucket: "online-store-395c8.appspot.com",
+  apiKey: import.meta.env.SECRET_FIREBASE_API_KEY,
+  authDomain: import.meta.env.SECRET_AUTH_DOMAIN,
+  projectId: import.meta.env.SECRET_PROJECT_ID,
+  storageBucket: import.meta.env.SECRET_STORAGE_BUCKETS,
   messagingSenderId: "719795490398",
-  appId: "1:719795490398:web:83e19db5bb74403676aecf",
+  appId: import.meta.env.SECRET_APP_ID,
 };
 
 // Initialize Firebase
